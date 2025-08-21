@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "test@example.com",
+      "password": "$2a$10$encryptedPasswordHere", 
+      "name": "John",
+      "surname": "Doe",
+      "cell": "0812345678"
+    }
+  ],
+  "shoppingLists": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "Milk",
+      "quantity": 2,
+      "notes": "Low fat",
+      "category": "Groceries",
+      "image": "https://via.placeholder.com/150",
+      "dateAdded": "2025-08-21T12:00:00Z"
+    }
+  ]
+}
