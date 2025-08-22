@@ -1,9 +1,9 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "test@example.com",
-      "password": "$2a$10$encryptedPasswordHere", 
+      "password": "$2a$10$encryptedPasswordHere",
       "name": "John",
       "surname": "Doe",
       "cell": "0812345678"
@@ -11,14 +11,24 @@
   ],
   "shoppingLists": [
     {
-      "id": 1,
-      "userId": 1,
-      "name": "Milk",
-      "quantity": 2,
-      "notes": "Low fat",
-      "category": "Groceries",
-      "image": "https://via.placeholder.com/150",
-      "dateAdded": "2025-08-21T12:00:00Z"
+      "name": "milk",
+      "quantity": 3,
+      "notes": "",
+      "category": "Food",
+      "image": "242",
+      "id": "1755868706611",
+      "userId": "4361",
+      "dateAdded": "2025-08-22T13:18:26.611Z"
+    },
+    {
+      "name": "wors ",
+      "quantity": 1,
+      "notes": "m",
+      "category": "Food",
+      "image": "",
+      "id": "d11d",
+      "userId": "4361",
+      "dateAdded": "2025-08-22T13:32:03.391Z"
     }
   ]
 }

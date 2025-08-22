@@ -1,8 +1,8 @@
-
 import { useDispatch } from "react-redux";
 import { register } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import type  { User } from "../features/auth/authSlice"; 
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -22,7 +22,14 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(register(formData));
+
+    // Add a unique id to satisfy User type
+    const newUser: User = {
+      id: Date.now(), // unique number
+      ...formData,
+    };
+
+    dispatch(register(newUser));
     navigate("/home");
   };
 
@@ -37,3 +44,4 @@ export default function Register() {
     </form>
   );
 }
+

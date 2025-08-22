@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ShoppingItem } from "./shoppingSlice";
 
-const API_URL = "http://localhost:5000/shoppingItems";
+const API_URL = "http://localhost:5000/shoppingLists";
 
 export const fetchItems = async () => {
   const res = await axios.get<ShoppingItem[]>(API_URL);
