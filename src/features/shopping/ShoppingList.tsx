@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { deleteItem } from "./shoppingSlice";
 import { removeItem } from "./shoppingAPI";
+import "../../styles/ShoppingForm.css";
 
 interface Props {
   items: any[];
@@ -16,16 +17,24 @@ const ShoppingList = ({ items, onEdit }: Props) => {
   };
 
   return (
-    <div>
+    <div className="item-list">
       {items.map(item => (
-        <div key={item.id} className="border p-2 mb-2">
-          <h3>{item.name}</h3>
+        <div key={item.id} className="item-card">
+          <h4>{item.name}</h4>
           <p>Qty: {item.quantity}</p>
           <p>Category: {item.category}</p>
           {item.notes && <p>Notes: {item.notes}</p>}
-          {item.image && <img src={item.image} alt={item.name} className="w-20 h-20 object-cover" />}
-          <button onClick={() => onEdit(item)}>Edit</button>
-          <button onClick={() => handleDelete(item.id)}>Delete</button>
+          {item.image && (
+            <img
+              src={item.image}
+              alt={item.name}
+              style={{ width: "100%", height: "120px", objectFit: "cover", borderRadius: "5px", marginBottom: "8px" }}
+            />
+          )}
+          <div className="card-actions">
+            <button className="edit-btn" onClick={() => onEdit(item)}>Edit</button>
+            <button className="delete-btn" onClick={() => handleDelete(item.id)}>Delete</button>
+          </div>
         </div>
       ))}
     </div>
@@ -33,3 +42,4 @@ const ShoppingList = ({ items, onEdit }: Props) => {
 };
 
 export default ShoppingList;
+

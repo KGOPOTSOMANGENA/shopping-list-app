@@ -5,6 +5,7 @@ import type { RootState } from "../../app/store";
 import { addItem, updateItem, setSearchKeyword, setSortOption } from "./shoppingSlice";
 import type { ShoppingItem } from "./shoppingSlice";
 import { createItem, editItem } from "./shoppingAPI";
+import "../../styles/ShoppingForm.css";
 
 interface Props {
   itemToEdit?: ShoppingItem;
@@ -45,7 +46,6 @@ const ShoppingForm = ({ itemToEdit, onFinish }: Props) => {
     }
   }, [itemToEdit]);
 
-  // Sync URL params with Redux on mount
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const search = params.get("search") || "";
@@ -59,14 +59,12 @@ const ShoppingForm = ({ itemToEdit, onFinish }: Props) => {
     setForm({ ...form, [e.target.name]: value });
   };
 
-  // Search input handler
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = e.target.value;
     dispatch(setSearchKeyword(keyword));
     navigate(`?search=${keyword}${sortOption ? `&sort=${sortOption}` : ""}`);
   };
 
-  // Sort change handler
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const sort = e.target.value as "name" | "category" | "date";
     dispatch(setSortOption(sort));
@@ -104,32 +102,35 @@ const ShoppingForm = ({ itemToEdit, onFinish }: Props) => {
   };
 
   return (
-    <div className="mb-4">
-      {/* Search input */}
-      <input
-        type="text"
-        placeholder="Search items..."
-        value={searchKeyword}
-        onChange={handleSearch}
-        className="mb-2 p-1 border rounded w-full"
-      />
+    <div className="shopping-container">
+      
+      <div className="top-bar">
+        <input
+          type="text"
+          placeholder="Search items..."
+          value={searchKeyword}
+          onChange={handleSearch}
+          className="search-input"
+        />
 
-      {/* Sort select */}
-      <select
-        value={sortOption}
-        onChange={handleSortChange}
-        className="mb-4 p-1 border rounded"
-      >
-        <option value="name">Sort by Name</option>
-        <option value="category">Sort by Category</option>
-        <option value="date">Sort by Date</option>
-      </select>
+        <select
+          value={sortOption}
+          onChange={handleSortChange}
+          className="sort-select"
+        >
+          <option value="name">Sort by Name</option>
+          <option value="category">Sort by Category</option>
+          <option value="date">Sort by Date</option>
+        </select>
 
-      {/* Form to add/update items */}
-      <form onSubmit={handleSubmit} className="p-4 border rounded">
+        <div className="profile">👤</div>
+      </div>
+
+   
+      <form onSubmit={handleSubmit} className="nav-bar">
         <input
           name="name"
-          placeholder="Name"
+          placeholder="Name of the Product"
           value={form.name}
           onChange={handleChange}
           required
@@ -165,11 +166,12 @@ const ShoppingForm = ({ itemToEdit, onFinish }: Props) => {
           value={form.image}
           onChange={handleChange}
         />
-        <button type="submit">{itemToEdit ? "Update" : "Add"} Item</button>
+        <button type="submit" className="add-btn">
+          {itemToEdit ? "Update Item" : "Add Item"}
+        </button>
       </form>
     </div>
   );
 };
 
 export default ShoppingForm;
-

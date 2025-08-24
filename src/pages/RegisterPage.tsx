@@ -2,7 +2,8 @@ import { useDispatch } from "react-redux";
 import { register } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import type  { User } from "../features/auth/authSlice"; 
+import type { User } from "../features/auth/authSlice"; 
+import "../styles/Register.css";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -23,18 +24,17 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Add a unique id to satisfy User type
     const newUser: User = {
-      id: Date.now(), // unique number
+      id: Date.now(), 
       ...formData,
     };
 
     dispatch(register(newUser));
-    navigate("/home");
+    navigate("/login"); 
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4">
+    <form onSubmit={handleSubmit} className="register-form">
       <input name="email" placeholder="Email" onChange={handleChange} required />
       <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
       <input name="name" placeholder="Name" onChange={handleChange} required />
@@ -44,4 +44,5 @@ export default function Register() {
     </form>
   );
 }
+
 

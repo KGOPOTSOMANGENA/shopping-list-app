@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import "../styles/Register.css"; 
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -16,14 +17,31 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(login(credentials));
-    navigate("/home");
+    navigate("/shopping"); 
   };
-
   return (
-    <form onSubmit={handleSubmit} className="p-4">
-      <input name="email" placeholder="Email" onChange={handleChange} required />
-      <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-      <button type="submit">Login</button>
+    <form onSubmit={handleSubmit} className="register-form">
+      <h2>Login</h2>
+      <input
+        className="form-input"
+        name="email"
+        placeholder="Email"
+        onChange={handleChange}
+        required
+      />
+      <input
+        className="form-input"
+        name="password"
+        type="password"
+        placeholder="Password"
+        onChange={handleChange}
+        required
+      />
+      <button type="submit" className="form-button">
+        Login
+      </button>
     </form>
   );
 }
+
+
