@@ -8,7 +8,7 @@ import { createItem, editItem } from "./shoppingAPI";
 import "../../styles/ShoppingForm.css";
 
 interface Props {
-  itemToEdit?: ShoppingItem;
+  itemToEdit?: ShoppingItem | null;
   onFinish?: () => void;
 }
 
@@ -84,6 +84,7 @@ const ShoppingForm = ({ itemToEdit, onFinish }: Props) => {
         const saved = await editItem(updated);
         dispatch(updateItem(saved));
       } else {
+        const userId: number = Number(authUser.id);
         const newItemData: Omit<ShoppingItem, "id"> = {
           ...form,
           userId,

@@ -1,23 +1,34 @@
-import axios from "axios";
 import type { ShoppingItem } from "./shoppingSlice";
 
-const API_URL = "http://localhost:5000/shoppingLists";
-
-export const fetchItems = async () => {
-  const res = await axios.get<ShoppingItem[]>(API_URL);
-  return res.data;
-};
-
 export const createItem = async (item: Omit<ShoppingItem, "id">) => {
-  const res = await axios.post<ShoppingItem>(API_URL, item);
-  return res.data;
+  const res = await fetch("http://localhost:5000/shoppingLists", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
+  const data = await res.json();
+  return data;
 };
 
 export const editItem = async (item: ShoppingItem) => {
-  const res = await axios.put<ShoppingItem>(`${API_URL}/${item.id}`, item);
-  return res.data;
+  const res = await fetch(`http://localhost:5000/shoppingLists/${item.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
+  const data = await res.json();
+  return data;
 };
 
 export const removeItem = async (id: number) => {
-  await axios.delete(`${API_URL}/${id}`);
+  await fetch(`http://localhost:5000/shoppingLists/${id}`, {
+    method: "DELETE",
+  });
 };
+
+export const fetchAllItems = async () => {
+  const res = await fetch("http://localhost:5000/shoppingLists");
+  const data: ShoppingItem[] = await res.json();
+  return data;
+};
+
