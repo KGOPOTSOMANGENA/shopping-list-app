@@ -6,13 +6,13 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f8f9fa;
+  background: #2c597e1e;
   color: #333;
   line-height: 1.5;
   padding: 20px;
 }
 
-/* Utility classes */
+
 .container {
   max-width: 800px;
   margin: 0 auto;

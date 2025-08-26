@@ -46,6 +46,9 @@ const shoppingSlice = createSlice({
     deleteItem: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
+    clearAllItems: (state) => {
+    state.items = [];
+    },
     setSearchKeyword: (state, action: PayloadAction<string>) => {
       state.searchKeyword = action.payload;
     },
@@ -63,6 +66,7 @@ export const {
   addItem,
   updateItem,
   deleteItem,
+  clearAllItems,
   setSearchKeyword,
   setSortOption,
   setItemToEdit, 

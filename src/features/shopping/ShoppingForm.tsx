@@ -7,6 +7,7 @@ import type { ShoppingItem } from "./shoppingSlice";
 import { createItem, editItem } from "./shoppingAPI";
 import "../../styles/ShoppingForm.css";
 
+
 interface Props {
   itemToEdit?: ShoppingItem | null;
   onFinish?: () => void;
@@ -46,29 +47,10 @@ const ShoppingForm = ({ itemToEdit, onFinish }: Props) => {
     }
   }, [itemToEdit]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const search = params.get("search") || "";
-    const sort = params.get("sort") as "name" | "category" | "date" | null;
-    if (search) dispatch(setSearchKeyword(search));
-    if (sort) dispatch(setSortOption(sort));
-  }, [location.search, dispatch]);
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const value = e.target.name === "quantity" ? Number(e.target.value) : e.target.value;
     setForm({ ...form, [e.target.name]: value });
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const keyword = e.target.value;
-    dispatch(setSearchKeyword(keyword));
-    navigate(`?search=${keyword}${sortOption ? `&sort=${sortOption}` : ""}`);
-  };
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const sort = e.target.value as "name" | "category" | "date";
-    dispatch(setSortOption(sort));
-    navigate(`?search=${searchKeyword}&sort=${sort}`);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -104,30 +86,15 @@ const ShoppingForm = ({ itemToEdit, onFinish }: Props) => {
 
   return (
     <div className="shopping-container">
-      
-      <div className="top-bar">
-        <input
-          type="text"
-          placeholder="Search items..."
-          value={searchKeyword}
-          onChange={handleSearch}
-          className="search-input"
-        />
+      <h3 className="My-profile">My Profile</h3>
+  <div
+    className="profile"
+    style={{ cursor: "pointer" }}
+    onClick={() => navigate("/profile")}
+  >
+      👤
+  </div>
 
-        <select
-          value={sortOption}
-          onChange={handleSortChange}
-          className="sort-select"
-        >
-          <option value="name">Sort by Name</option>
-          <option value="category">Sort by Category</option>
-          <option value="date">Sort by Date</option>
-        </select>
-
-        <div className="profile">👤</div>
-      </div>
-
-   
       <form onSubmit={handleSubmit} className="nav-bar">
         <input
           name="name"

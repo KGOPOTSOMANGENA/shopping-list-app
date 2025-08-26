@@ -1,3 +1,4 @@
+
 .top-bar {
   display: flex;
   align-items: center;
@@ -5,7 +6,9 @@
   gap: 12px;
   padding: 16px;
   position: relative;
+  flex-wrap: wrap;
 }
+
 .search-input {
   flex: 1;
   max-width: 500px;
@@ -15,6 +18,7 @@
   font-size: 16px;
   outline: none;
 }
+
 .sort-select {
   padding: 10px 14px;
   border-radius: 20px;
@@ -23,21 +27,16 @@
   cursor: pointer;
   font-size: 14px;
 }
-.profile {
-  position: absolute;
-  right: 20px;
-  font-weight: bold;
-  color: #444;
-}
 
 .nav-bar {
-  background: #003366; 
+  background: #003366;
   padding: 16px;
   display: flex;
   align-items: center;
   gap: 12px;
   border-radius: 8px;
   margin: 0 10px 10px;
+  flex-wrap: wrap;
 }
 
 .nav-bar input,
@@ -45,7 +44,7 @@
   padding: 10px;
   border-radius: 6px;
   border: none;
-  flex: 1;
+  flex: 1 1 120px;
 }
 
 .add-btn {
@@ -66,19 +65,22 @@
 .item-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  justify-content: start;
   gap: 16px;
   padding: 0 8px 20px;
 }
 
 .item-card {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: flex-start;
   background: #fff;
   padding: 10px;
   border-radius: 12px;
   box-shadow: 0 2px 8px #0000001a;
   transition: transform 0.2s;
+  max-width: 250px;
+  width: 100%;
 }
 
 .item-card:hover {
@@ -99,7 +101,7 @@
 .card-actions {
   display: flex;
   gap: 8px;
-  margin-top: auto; 
+  margin-top: auto;
 }
 
 .edit-btn,
@@ -130,16 +132,115 @@
   background: #a71d2a;
 }
 
+.My-profile {
+  position: absolute;
+  right: 80px;
+  top: 13.2%;
+}
 
-@media (max-width: 768px) {
-  .item-card {
-    min-width: 180px;
+.My-Heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #003366;
+  top: 10%;
+  font-size: 24px;
+  margin: 0px;
+  padding-top: 6px;
+}
+
+.shopping-icon {
+  color: #66b3ff;
+  font-size: 28px;
+  top: 10%;
+}
+
+.profile {
+  position: absolute;
+  right: 30px;
+  top: 14%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #003366;
+  background: #fff;
+  color: #003366;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.profile:hover {
+  background: #f0f0f0;
+}
+
+
+@media (max-width: 320px) {
+  .search-input {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  .sort-select {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .nav-bar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+  .add-btn {
+    width: 100%;
+  }
+  .item-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .My-Heading {
+    font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .item-card {
-    min-width: 140px;
-    padding: 12px;
+  .search-input {
+    max-width: 300px;
+  }
+  .item-list {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    gap: 8px;
+  }
+  .nav-bar input,
+  .nav-bar select {
+    flex: 1 1 140px;
+  }
+  .item-list {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .search-input {
+    max-width: 400px;
+  }
+  .item-list {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .search-input {
+    max-width: 450px;
+  }
+  .item-list {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }

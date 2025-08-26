@@ -3,6 +3,7 @@ import { loginUser } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import type { AppDispatch } from "../app/store"; 
+import { FaShoppingBag } from "react-icons/fa";
 import "../styles/Register.css";
 
 export default function Login() {
@@ -49,7 +50,10 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
-      <h2>Login</h2>
+       <div className="register-header">
+        <FaShoppingBag className="bag-icon" />
+        <h2>Login</h2>
+      </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <input
         className="form-input"

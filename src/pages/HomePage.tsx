@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../app/store";
 import { setItems } from "../features/shopping/shoppingSlice";
-import { fetchItems } from "../features/shopping/shoppingAPI";
+import { fetchAllItems } from "../features/shopping/shoppingAPI";
 import ShoppingForm from "../features/shopping/ShoppingForm";
 import ShoppingList from "../features/shopping/ShoppingList";
 
@@ -15,7 +15,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const loadItems = async () => {
-      const data = await fetchItems();
+      const data = await fetchAllItems();
       dispatch(setItems(data));
     };
     loadItems();

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import type { PayloadAction } from "@reduxjs/toolkit";
 export interface User {
   id: number | string;
   email: string;
@@ -15,26 +15,20 @@ interface AuthState {
   error: string | null;
 }
 
-// Async thunk to login via JSON Server
 export const loginUser = createAsyncThunk<
-  User, // Return type
-  { email: string; password: string }, // Argument type
-  { rejectValue: string } // reject type
+  User,
+  { email: string; password: string },
+  { rejectValue: string }
 >("auth/loginUser", async (credentials, { rejectWithValue }) => {
   try {
     const res = await fetch(
       `http://localhost:5000/users?email=${credentials.email}`
     );
     const users = await res.json();
-
-    if (users.length === 0) {
-      return rejectWithValue("User not found");
-    }
+    if (users.length === 0) return rejectWithValue("User not found");
 
     const user = users[0];
-    if (user.password !== credentials.password) {
-      return rejectWithValue("Invalid password");
-    }
+    if (user.password !== credentials.password) return rejectWithValue("Invalid password");
 
     return user;
   } catch (err) {
@@ -42,34 +36,50 @@ export const loginUser = createAsyncThunk<
   }
 });
 
-// Async thunk to register via JSON Server
 export const registerUser = createAsyncThunk<
   User,
   User,
   { rejectValue: string }
 >("auth/registerUser", async (newUser, { rejectWithValue }) => {
   try {
-    // Check if email already exists
-    const checkRes = await fetch(
-      `http://localhost:5000/users?email=${newUser.email}`
-    );
+    const checkRes = await fetch(`http://localhost:5000/users?email=${newUser.email}`);
     const existing = await checkRes.json();
-    if (existing.length > 0) {
-      return rejectWithValue("Email already registered");
-    }
+    if (existing.length > 0) return rejectWithValue("Email already registered");
 
     const res = await fetch("http://localhost:5000/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newUser),
     });
-
     const savedUser = await res.json();
     return savedUser;
   } catch (err) {
     return rejectWithValue("Registration failed. Try again.");
   }
 });
+
+
+export const updateProfile = createAsyncThunk<
+  User,
+  Partial<User>,
+  { rejectValue: string; state: { auth: AuthState } }
+>("auth/updateProfile", async (updatedData, { rejectWithValue, getState }) => {
+  const currentUser = getState().auth.user;
+  if (!currentUser) return rejectWithValue("User not logged in");
+
+  try {
+    const res = await fetch(`http://localhost:5000/users/${currentUser.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...currentUser, ...updatedData }),
+    });
+    const updatedUser = await res.json();
+    return updatedUser;
+  } catch (err) {
+    return rejectWithValue("Failed to update profile");
+  }
+});
+
 
 const initialState: AuthState = {
   user: JSON.parse(localStorage.getItem("user") || "null"),
@@ -89,7 +99,7 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // LOGIN
+    
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
@@ -102,7 +112,6 @@ const authSlice = createSlice({
       state.error = action.payload || "Login failed";
     });
 
-    // REGISTER
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
@@ -112,8 +121,18 @@ const authSlice = createSlice({
     builder.addCase(registerUser.rejected, (state, action) => {
       state.error = action.payload || "Registration failed";
     });
+    
+    builder.addCase(updateProfile.fulfilled, (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+      state.error = null;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    });
+    builder.addCase(updateProfile.rejected, (state, action) => {
+      state.error = action.payload || "Failed to update profile";
+    });
   },
 });
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;
+

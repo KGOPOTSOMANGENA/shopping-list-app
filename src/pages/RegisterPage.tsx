@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import type { User } from "../features/auth/authSlice";
 import type { AppDispatch } from "../app/store";
+import { FaShoppingBag } from "react-icons/fa"; 
 import "../styles/Register.css";
 
 export default function Register() {
@@ -28,7 +29,6 @@ export default function Register() {
     setError("");
 
     try {
-      // Check if email already exists
       const checkRes = await fetch(
         `http://localhost:5000/users?email=${formData.email}`
       );
@@ -39,11 +39,9 @@ export default function Register() {
       }
 
       const newUser: User = {
-        id: Date.now(), // number ID
+        id: Date.now(), 
         ...formData,
       };
-
-      // Save user to JSON Server
       await fetch("http://localhost:5000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,7 +49,7 @@ export default function Register() {
       });
 
       dispatch(registerUser(newUser));
-      navigate("/login"); // go to login after registration
+      navigate("/login"); 
     } catch (err) {
       console.error(err);
       setError("Registration failed. Try again.");
@@ -60,7 +58,10 @@ export default function Register() {
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
-      <h2>Register</h2>
+      <div className="register-header">
+        <FaShoppingBag className="bag-icon" />
+        <h2>Register</h2>
+      </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <input name="email" placeholder="Email" onChange={handleChange} required />
       <input
