@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./features/auth/ProtectedRoute";
+import NotFoundPage from "./pages/NotFoundPage";
 import { useEffect } from "react";
 import { setSearchKeyword } from "./features/shopping/shoppingSlice";
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/shopping" element={<Dashboard />} />
+          <Route path="*" element={<NotFoundPage />} />
 
           <Route
             path="/profile"

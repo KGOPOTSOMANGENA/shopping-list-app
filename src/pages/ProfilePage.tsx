@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { updateProfile } from "../features/auth/authSlice";
-import { FaUserCircle } from "react-icons/fa"; 
+import { FaUserCircle, FaCheckCircle } from "react-icons/fa"; 
 import "../styles/ProfilePage.css";
 
 const ProfilePage = () => {
@@ -16,6 +16,8 @@ const ProfilePage = () => {
     cell: user?.cell || "",
   });
 
+  const [successMessage, setSuccessMessage] = useState("");
+
   if (!user) return <p>Please login first.</p>;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +28,15 @@ const ProfilePage = () => {
     e.preventDefault();
     try {
       await dispatch(updateProfile(form)).unwrap();
-      alert("Profile updated successfully!");
+
+      // Show success popup
+      setSuccessMessage("Profile updated successfully!");
+
+      // Hide after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+
     } catch (err) {
       console.error(err);
       alert("Failed to update profile");
@@ -35,6 +45,15 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page">
+
+      {/* Success Popup */}
+      {successMessage && (
+        <div className="success-popup">
+          <FaCheckCircle />
+          <span>{successMessage}</span>
+        </div>
+      )}
+
       <div className="profile-header">
         <FaUserCircle className="profile-icon" />
         <h2>My Profile</h2>
@@ -63,5 +82,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-
-
